@@ -1,0 +1,552 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Network Lab | DURNEX</title>
+
+    <style>
+        :root {
+            --background: #0b1120;
+            --card: #141e30;
+            --border: #29374c;
+            --text: #edf3ff;
+            --muted: #aab8cc;
+            --accent: #38bdf8;
+            --green: #4ade80;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            padding: 25px 16px 50px;
+            background: var(--background);
+            color: var(--text);
+            font-family: Arial, sans-serif;
+            line-height: 1.8;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 950px;
+            margin: auto;
+        }
+
+        .top-link {
+            display: inline-block;
+            margin-bottom: 20px;
+            color: var(--accent);
+            text-decoration: none;
+        }
+
+        header {
+            padding: 30px 20px;
+            margin-bottom: 25px;
+            text-align: center;
+            background: linear-gradient(135deg, #14243b, #102d42);
+            border: 1px solid var(--border);
+            border-radius: 18px;
+        }
+
+        header h1 {
+            margin: 0;
+            font-size: clamp(25px, 5vw, 38px);
+            color: var(--accent);
+        }
+
+        header p {
+            color: var(--muted);
+            margin-bottom: 0;
+        }
+
+        .lesson {
+            margin-bottom: 20px;
+            padding: 22px;
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 14px;
+        }
+
+        .lesson h2 {
+            margin-top: 0;
+            color: var(--accent);
+            font-size: 22px;
+        }
+
+        .english {
+            font-size: 16px;
+        }
+
+        .arabic {
+            margin-top: 12px;
+            padding: 12px 15px;
+            background: #0e1829;
+            border-right: 3px solid var(--green);
+            border-radius: 8px;
+            color: #d5e4f5;
+            direction: rtl;
+            text-align: right;
+        }
+
+        .label {
+            display: block;
+            margin-bottom: 5px;
+            font-size: 12px;
+            color: var(--green);
+            font-weight: bold;
+        }
+
+        .quiz {
+            margin-top: 35px;
+            padding: 24px;
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+        }
+
+        .quiz h2 {
+            color: var(--accent);
+            margin-top: 0;
+        }
+
+        .question {
+            padding: 18px 0;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .question:last-of-type {
+            border-bottom: none;
+        }
+
+        .question h3 {
+            margin-bottom: 5px;
+            font-size: 17px;
+        }
+
+        .question-translation {
+            margin-top: 0;
+            color: #c1cede;
+            direction: rtl;
+            text-align: right;
+        }
+
+        .option {
+            display: flex;
+            align-items: flex-start;
+            gap: 9px;
+            margin: 9px 0;
+            padding: 10px 12px;
+            background: #0e1829;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            cursor: pointer;
+        }
+
+        .option:hover {
+            border-color: var(--accent);
+        }
+
+        .option input {
+            margin-top: 7px;
+            accent-color: var(--accent);
+        }
+
+        .option-text {
+            flex: 1;
+        }
+
+        .option-arabic {
+            display: block;
+            color: var(--muted);
+            direction: rtl;
+            text-align: right;
+            font-size: 14px;
+        }
+
+        button {
+            width: 100%;
+            margin-top: 20px;
+            padding: 13px;
+            color: #07111f;
+            background: var(--accent);
+            border: none;
+            border-radius: 9px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background: #7dd3fc;
+        }
+
+        #result {
+            margin-top: 20px;
+            padding: 15px;
+            background: #0e1829;
+            border-radius: 9px;
+            text-align: center;
+            font-size: 17px;
+        }
+
+        .correct {
+            color: var(--green);
+        }
+
+        .incorrect {
+            color: #fca5a5;
+        }
+
+        .feedback {
+            margin-top: 8px;
+            font-size: 14px;
+            direction: rtl;
+            text-align: right;
+        }
+
+        footer {
+            margin-top: 30px;
+            text-align: center;
+            color: var(--muted);
+            font-size: 13px;
+        }
+    </style>
+</head>
+
+<body>
+    <main class="container">
+
+        <a class="top-link" href="/">← Back to Dashboard</a>
+
+        <header>
+            <h1>Network Fundamentals</h1>
+            <p>Learn the basic concepts of computer networking.</p>
+            <p lang="ar" dir="rtl">تعلّم المفاهيم الأساسية لشبكات الحاسوب.</p>
+        </header>
+
+        <section class="lesson">
+            <h2>1. What Is a Network?</h2>
+
+            <p class="english">
+                A computer network is a group of connected devices that
+                communicate and share information or resources.
+            </p>
+
+            <div class="arabic" lang="ar">
+                <span class="label">الترجمة العربية</span>
+                شبكة الحاسوب هي مجموعة من الأجهزة المتصلة التي تتواصل فيما
+                بينها وتتبادل المعلومات أو الموارد.
+            </div>
+        </section>
+
+        <section class="lesson">
+            <h2>2. What Is an IP Address?</h2>
+
+            <p class="english">
+                An IP address is a numerical address used to identify a
+                device on an IP network.
+            </p>
+
+            <div class="arabic" lang="ar">
+                <span class="label">الترجمة العربية</span>
+                عنوان IP هو عنوان رقمي يُستخدم للتعرّف على جهاز ضمن شبكة
+                تعتمد بروتوكول الإنترنت.
+            </div>
+        </section>
+
+        <section class="lesson">
+            <h2>3. What Is a Router?</h2>
+
+            <p class="english">
+                A router connects different networks and forwards data
+                packets toward their destinations.
+            </p>
+
+            <div class="arabic" lang="ar">
+                <span class="label">الترجمة العربية</span>
+                جهاز التوجيه (Router) يربط بين الشبكات المختلفة ويوجّه
+                حزم البيانات نحو وجهاتها.
+            </div>
+        </section>
+
+        <section class="lesson">
+            <h2>4. What Is a Switch?</h2>
+
+            <p class="english">
+                A network switch connects devices within a local area
+                network and forwards data to the appropriate device.
+            </p>
+
+            <div class="arabic" lang="ar">
+                <span class="label">الترجمة العربية</span>
+                المحوّل الشبكي (Switch) يربط الأجهزة ضمن الشبكة المحلية
+                ويوجّه البيانات إلى الجهاز المناسب.
+            </div>
+        </section>
+
+        <section class="lesson">
+            <h2>5. What Are Private IP Addresses?</h2>
+
+            <p class="english">
+                Private IP addresses are used inside local networks.
+                Common private IPv4 ranges include 10.0.0.0/8,
+                172.16.0.0/12, and 192.168.0.0/16.
+            </p>
+
+            <div class="arabic" lang="ar">
+                <span class="label">الترجمة العربية</span>
+                تُستخدم عناوين IP الخاصة داخل الشبكات المحلية. وتشمل
+                نطاقاتها الشائعة في IPv4:
+                10.0.0.0/8 و172.16.0.0/12 و192.168.0.0/16.
+            </div>
+        </section>
+
+        <section class="quiz">
+            <h2>Knowledge Test</h2>
+
+            <p>Choose the correct answer for each question.</p>
+
+            <p class="arabic" lang="ar">
+                اختر الإجابة الصحيحة لكل سؤال.
+            </p>
+
+            <form id="quizForm">
+
+                <div class="question" data-answer="b">
+                    <h3>1. What is a computer network?</h3>
+                    <p class="question-translation" lang="ar">
+                        ما شبكة الحاسوب؟
+                    </p>
+
+                    <label class="option">
+                        <input type="radio" name="q1" value="a">
+                        <span class="option-text">
+                            A single computer
+                            <span class="option-arabic">حاسوب واحد</span>
+                        </span>
+                    </label>
+
+                    <label class="option">
+                        <input type="radio" name="q1" value="b">
+                        <span class="option-text">
+                            Connected devices that communicate
+                            <span class="option-arabic">أجهزة متصلة تتواصل فيما بينها</span>
+                        </span>
+                    </label>
+
+                    <label class="option">
+                        <input type="radio" name="q1" value="c">
+                        <span class="option-text">
+                            A type of keyboard
+                            <span class="option-arabic">نوع من لوحات المفاتيح</span>
+                        </span>
+                    </label>
+
+                    <div class="feedback" aria-live="polite"></div>
+                </div>
+
+                <div class="question" data-answer="a">
+                    <h3>2. What does an IP address identify?</h3>
+                    <p class="question-translation" lang="ar">
+                        ماذا يحدد عنوان IP؟
+                    </p>
+
+                    <label class="option">
+                        <input type="radio" name="q2" value="a">
+                        <span class="option-text">
+                            A device on an IP network
+                            <span class="option-arabic">جهاز ضمن شبكة IP</span>
+                        </span>
+                    </label>
+
+                    <label class="option">
+                        <input type="radio" name="q2" value="b">
+                        <span class="option-text">
+                            A computer's color
+                            <span class="option-arabic">لون الحاسوب</span>
+                        </span>
+                    </label>
+
+                    <label class="option">
+                        <input type="radio" name="q2" value="c">
+                        <span class="option-text">
+                            The size of a screen
+                            <span class="option-arabic">حجم الشاشة</span>
+                        </span>
+                    </label>
+
+                    <div class="feedback" aria-live="polite"></div>
+                </div>
+
+                <div class="question" data-answer="c">
+                    <h3>3. What is the main function of a router?</h3>
+                    <p class="question-translation" lang="ar">
+                        ما الوظيفة الأساسية لجهاز التوجيه؟
+                    </p>
+
+                    <label class="option">
+                        <input type="radio" name="q3" value="a">
+                        <span class="option-text">
+                            To print documents
+                            <span class="option-arabic">طباعة المستندات</span>
+                        </span>
+                    </label>
+
+                    <label class="option">
+                        <input type="radio" name="q3" value="b">
+                        <span class="option-text">
+                            To store files only
+                            <span class="option-arabic">تخزين الملفات فقط</span>
+                        </span>
+                    </label>
+
+                    <label class="option">
+                        <input type="radio" name="q3" value="c">
+                        <span class="option-text">
+                            To connect networks and route data
+                            <span class="option-arabic">ربط الشبكات وتوجيه البيانات</span>
+                        </span>
+                    </label>
+
+                    <div class="feedback" aria-live="polite"></div>
+                </div>
+
+                <div class="question" data-answer="b">
+                    <h3>4. Where is a network switch commonly used?</h3>
+                    <p class="question-translation" lang="ar">
+                        أين يُستخدم المحوّل الشبكي عادةً؟
+                    </p>
+
+                    <label class="option">
+                        <input type="radio" name="q4" value="a">
+                        <span class="option-text">
+                            To connect a monitor to a wall
+                            <span class="option-arabic">لتوصيل الشاشة بالحائط</span>
+                        </span>
+                    </label>
+
+                    <label class="option">
+                        <input type="radio" name="q4" value="b">
+                        <span class="option-text">
+                            To connect devices in a local network
+                            <span class="option-arabic">لربط الأجهزة ضمن شبكة محلية</span>
+                        </span>
+                    </label>
+
+                    <label class="option">
+                        <input type="radio" name="q4" value="c">
+                        <span class="option-text">
+                            To charge a laptop
+                            <span class="option-arabic">لشحن الحاسوب المحمول</span>
+                        </span>
+                    </label>
+
+                    <div class="feedback" aria-live="polite"></div>
+                </div>
+
+                <div class="question" data-answer="a">
+                    <h3>5. Which is a private IPv4 address?</h3>
+                    <p class="question-translation" lang="ar">
+                        أي مما يأتي عنوان IPv4 خاص؟
+                    </p>
+
+                    <label class="option">
+                        <input type="radio" name="q5" value="a">
+                        <span class="option-text">
+                            192.168.1.10
+                            <span class="option-arabic">عنوان خاص يُستخدم عادةً داخل الشبكات المحلية</span>
+                        </span>
+                    </label>
+
+                    <label class="option">
+                        <input type="radio" name="q5" value="b">
+                        <span class="option-text">
+                            8.8.8.8
+                            <span class="option-arabic">عنوان عام</span>
+                        </span>
+                    </label>
+
+                    <label class="option">
+                        <input type="radio" name="q5" value="c">
+                        <span class="option-text">
+                            1.1.1.1
+                            <span class="option-arabic">عنوان عام</span>
+                        </span>
+                    </label>
+
+                    <div class="feedback" aria-live="polite"></div>
+                </div>
+
+                <button type="submit">Check My Answers</button>
+            </form>
+
+            <div id="result" role="status" aria-live="polite" hidden></div>
+        </section>
+
+        <footer>
+            DURNEX | Network Fundamentals
+        </footer>
+
+    </main>
+
+    <script>
+        const quizForm = document.getElementById("quizForm");
+        const result = document.getElementById("result");
+
+        const explanations = {
+            q1: "الشبكة هي مجموعة من الأجهزة المتصلة التي تتبادل المعلومات.",
+            q2: "يُستخدم عنوان IP للتعرّف على جهاز ضمن شبكة تعتمد بروتوكول الإنترنت.",
+            q3: "يوجّه جهاز التوجيه البيانات بين الشبكات المختلفة.",
+            q4: "يربط المحوّل الشبكي الأجهزة ضمن الشبكة المحلية.",
+            q5: "العنوان 192.168.1.10 يقع ضمن نطاق عناوين IPv4 الخاصة."
+        };
+
+        quizForm.addEventListener("submit", function (event) {
+            event.preventDefault();
+
+            let score = 0;
+            const questions = document.querySelectorAll(".question");
+
+            questions.forEach(function (question, index) {
+                const questionName = "q" + (index + 1);
+                const selected = quizForm.querySelector(
+                    'input[name="' + questionName + '"]:checked'
+                );
+                const feedback = question.querySelector(".feedback");
+                const correctAnswer = question.dataset.answer;
+
+                if (selected && selected.value === correctAnswer) {
+                    score++;
+                    feedback.className = "feedback correct";
+                    feedback.textContent = "إجابة صحيحة. " + explanations[questionName];
+                } else {
+                    feedback.className = "feedback incorrect";
+
+                    if (selected) {
+                        feedback.textContent =
+                            "إجابة غير صحيحة. " + explanations[questionName];
+                    } else {
+                        feedback.textContent =
+                            "لم تتم الإجابة عن هذا السؤال. " + explanations[questionName];
+                    }
+                }
+            });
+
+            const percentage = Math.round((score / questions.length) * 100);
+
+            result.hidden = false;
+            result.textContent =
+                "النتيجة: " + score + " من " + questions.length +
+                " (" + percentage + "%).";
+
+            result.scrollIntoView({
+                behavior: "smooth",
+                block: "center"
+            });
+        });
+    </script>
+</body>
+</html>

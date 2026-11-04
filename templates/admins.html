@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>إدارة المشرفين</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 1000px;
+            margin: 30px auto;
+            padding: 0 16px;
+            background: #f4f6f9;
+            color: #222;
+        }
+        h1, h2 { color: #17365d; }
+        .panel {
+            background: white;
+            padding: 20px;
+            margin: 18px 0;
+            border-radius: 10px;
+        }
+        .table-wrap { overflow-x: auto; }
+        table { width: 100%; border-collapse: collapse; }
+        th, td {
+            padding: 12px;
+            border-bottom: 1px solid #ddd;
+            text-align: right;
+        }
+        label { display: inline-block; margin: 8px 12px 8px 0; }
+        input[type="text"], select {
+            padding: 9px;
+            margin: 6px 0;
+        }
+        button {
+            padding: 10px 16px;
+            border: 0;
+            border-radius: 5px;
+            cursor: pointer;
+            background: #1769aa;
+            color: white;
+        }
+        .remove { background: #a52834; }
+        .message { padding: 10px; background: #e8f4e8; margin: 8px 0; }
+        .error { background: #fde8e8; }
+    </style>
+</head>
+<body>
+    <h1>لوحة إدارة المشرفين</h1>
+    <p>هذه الصفحة مخصصة للمالك.</p>
+
+    {% with messages = get_flashed_messages(with_categories=true) %}
+      {% for category, message in messages %}
+        <div class="message {{ 'error' if category == 'error' else '' }}">
+            {{ message }}
+        </div>
+      {% endfor %}
+    {% endwith %}
+
+    <section class="panel">
+        <h2>الحسابات</h2>
+        <div class="table-wrap">
+            <table>
+                <thead>
+                    <tr>
+                        <th>رقم الحساب</th>
+                        <th>اسم المستخدم</th>
+                        <th>الدور</th>
+                    </tr>
+                </thead>
+                <tbody>
+                {% for user in users %}
+                    <tr>
+                        <td>{{ user.id }}</td>
+                        <td>{{ user.username }}</td>
+                        <td>
+                            {% if user.role == 'owner' %}
+                                مالك
+                            {% elif user.role == 'admin' %}
+                                مشرف
+                            {% else %}
+                                طالب
+                            {% endif %}
+                        </td>
+                    </tr>
+                {% else %}
+                    <tr><td colspan="3">لا توجد حسابات.</td></tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </section>
+
+    <section class="panel">
+        <h2>تعيين مشرف أو تحديث صلاحياته</h2>
+        <form method="post">
+            <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
+            <input type="hidden" name="action" value="set_admin">
+
+            <label for="target_id">حساب الطالب:</label>
+            <select name="target_id" id="target_id" required>
+                <option value="">اختر حساباً</option>
+                {% for user in users if user.role != 'owner' %}
+                    <option value="{{ user.id }}">
+                        {{ user.username }} — {{ 'مشرف' if user.role == 'admin' else 'طالب' }}
+                    </option>
+                {% endfor %}
+            </select>
+
+            <h3>الصلاحيات</h3>
+            {% set permissions = [
+                ('view_students', 'عرض حسابات الطلاب'),
+                ('view_grades', 'عرض الدرجات'),
+                ('manage_students', 'إدارة الطلاب'),
+                ('delete_students', 'حذف الطلاب'),
+                ('manage_lessons', 'إدارة الدروس'),
+                ('manage_quizzes', 'إدارة الاختبارات'),
+                ('manage_admins', 'إدارة المشرفين'),
+                ('manage_settings', 'إدارة الإعدادات')
+            ] %}
+
+            {% for key, label_text in permissions %}
+                <label>
+                    <input type="checkbox" name="permissions" value="{{ key }}">
+                    {{ label_text }}
+                </label><br>
+            {% endfor %}
+
+            <button type="submit">حفظ صلاحيات المشرف</button>
+        </form>
+    </section>
+
+    <section class="panel">
+        <h2>إزالة صلاحيات مشرف</h2>
+        <form method="post">
+            <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
+            <input type="hidden" name="action" value="remove_admin">
+
+            <label for="remove_target_id">المشرف:</label>
+            <select name="target_id" id="remove_target_id" required>
+                <option value="">اختر مشرفاً</option>
+                {% for user in users if user.role == 'admin' %}
+                    <option value="{{ user.id }}">{{ user.username }}</option>
+                {% endfor %}
+            </select>
+
+            <button class="remove" type="submit">إرجاعه إلى طالب</button>
+        </form>
+    </section>
+
+    <p><a href="{{ url_for('owner_dashboard') }}">العودة إلى لوحة المالك</a></p>
+</body>
+</html>

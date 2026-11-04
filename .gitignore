@@ -1,0 +1,29 @@
+# Secrets and environment
+.env
+.env.*
+!.env.example
+
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+
+# Database and SQLite files
+*.db
+*.db-journal
+*.db-wal
+*.db-shm
+
+# Backups
+*.backup
+*.backup-*
+*.before*
+*.bak
+*~
+
+# Logs
+*.log
+backups/
+*.tar.gz
+*.backup*

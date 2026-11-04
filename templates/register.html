@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create Student Account | DURNEX</title>
+    <style>
+        * { box-sizing: border-box; }
+
+```
+    body {
+        margin: 0;
+        min-height: 100vh;
+        display: grid;
+        place-items: center;
+        padding: 24px;
+        background: #080d18;
+        color: #edf2ff;
+        font-family: Arial, sans-serif;
+    }
+
+    .card {
+        width: 100%;
+        max-width: 440px;
+        padding: 34px;
+        background: #111a2b;
+        border: 1px solid #293750;
+        border-radius: 18px;
+    }
+
+    .brand {
+        color: #65e6c1;
+        font-size: 13px;
+        font-weight: bold;
+        letter-spacing: 2px;
+    }
+
+    h1 { margin-bottom: 8px; font-size: 28px; }
+
+    .subtitle {
+        margin-top: 0;
+        margin-bottom: 28px;
+        color: #a8b4ca;
+        line-height: 1.5;
+    }
+
+    label {
+        display: block;
+        margin: 17px 0 8px;
+        font-size: 14px;
+    }
+
+    input {
+        width: 100%;
+        padding: 13px;
+        border: 1px solid #35445e;
+        border-radius: 9px;
+        background: #0b1220;
+        color: white;
+        font-size: 16px;
+    }
+
+    input:focus {
+        outline: 2px solid #65e6c1;
+        outline-offset: 2px;
+    }
+
+    button {
+        width: 100%;
+        margin-top: 24px;
+        padding: 14px;
+        border: 0;
+        border-radius: 9px;
+        background: #65e6c1;
+        color: #08121b;
+        font-size: 16px;
+        font-weight: bold;
+        cursor: pointer;
+    }
+
+    button:hover { background: #8af3d6; }
+
+    .links {
+        margin-top: 22px;
+        text-align: center;
+        color: #a8b4ca;
+        font-size: 14px;
+    }
+
+    a { color: #65e6c1; text-decoration: none; }
+    a:hover { text-decoration: underline; }
+
+    .arabic {
+        margin-top: 24px;
+        padding-top: 18px;
+        border-top: 1px solid #293750;
+        color: #a8b4ca;
+        text-align: right;
+        line-height: 1.8;
+    }
+
+    @media (max-width: 480px) {
+        .card { padding: 24px; }
+    }
+</style>
+```
+
+</head>
+<body>
+    <main class="card">
+        <div class="brand">DURNEX</div>
+
+```
+    <h1>Create Account</h1>
+    <p class="subtitle">Join the platform and track your cybersecurity learning journey.</p>
+
+    <form action="/register" method="POST">
+        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+        <label for="full_name">Full Name | الاسم الكامل</label>
+        <input id="full_name" name="full_name" type="text"
+               minlength="3" maxlength="100" autocomplete="name" required>
+
+        <label for="username">Username</label>
+        <input id="username" name="username" type="text"
+               minlength="3" maxlength="50" autocomplete="username"
+               required>
+
+        <label for="email">Email Address</label>
+        <input id="email" name="email" type="email"
+               autocomplete="email" required>
+
+        <label for="password">Password</label>
+        <input id="password" name="password" type="password"
+               minlength="12" autocomplete="new-password" required>
+
+        <label for="confirm_password">Confirm Password</label>
+        <input id="confirm_password" name="confirm_password"
+               type="password" minlength="12"
+               autocomplete="new-password" required>
+
+        <button type="submit">Create My Account</button>
+    </form>
+
+    <div class="links">
+        Already have an account? <a href="/login">Sign in</a>
+    </div>
+
+    <div class="arabic" lang="ar" dir="rtl">
+        <strong>إنشاء حساب طالب</strong><br>
+        أنشئ حسابك حتى تتمكن من متابعة مستواك التعليمي ونتائج اختباراتك.
+        يجب أن تتكون كلمة المرور من 12 حرفاً على الأقل.
+    </div>
+</main>
+```
+
+</body>
+</html>

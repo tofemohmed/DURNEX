@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Dashboard | DURNEX</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #0b1120;
+            color: #e5e7eb;
+        }
+
+        header {
+            background: #111827;
+            padding: 20px 6%;
+            border-bottom: 1px solid #263247;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+
+        .brand {
+            color: #38bdf8;
+            font-size: 20px;
+            font-weight: bold;
+        }
+
+        a {
+            color: #38bdf8;
+            text-decoration: none;
+        }
+
+        .logout {
+            background: #dc2626;
+            color: white;
+            border: none;
+            padding: 10px 16px;
+            border-radius: 7px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+
+        main {
+            max-width: 1100px;
+            margin: 35px auto;
+            padding: 0 20px;
+        }
+
+        .welcome {
+            margin-bottom: 28px;
+        }
+
+        .welcome h1 {
+            margin-bottom: 8px;
+            font-size: 30px;
+        }
+
+        .muted {
+            color: #94a3b8;
+            line-height: 1.7;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 18px;
+            margin-bottom: 30px;
+        }
+
+        .card {
+            background: #111827;
+            border: 1px solid #263247;
+            border-radius: 12px;
+            padding: 22px;
+        }
+
+        .card h3 {
+            color: #94a3b8;
+            font-size: 14px;
+            margin-top: 0;
+        }
+
+        .value {
+            font-size: 25px;
+            font-weight: bold;
+            color: #38bdf8;
+            overflow-wrap: anywhere;
+        }
+
+        section {
+            background: #111827;
+            border: 1px solid #263247;
+            border-radius: 12px;
+            padding: 22px;
+            margin-bottom: 25px;
+            overflow-wrap: anywhere;
+        }
+
+        section h2 {
+            margin-top: 0;
+            font-size: 21px;
+        }
+
+        .table-wrap {
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            min-width: 450px;
+        }
+
+        th, td {
+            text-align: left;
+            padding: 13px 10px;
+            border-bottom: 1px solid #263247;
+        }
+
+        th {
+            color: #38bdf8;
+            font-size: 13px;
+        }
+
+        td {
+            font-size: 14px;
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 5px 10px;
+            border-radius: 20px;
+            background: #164e63;
+            color: #a5f3fc;
+            font-size: 12px;
+        }
+
+        .flash {
+            padding: 12px 15px;
+            border-radius: 8px;
+            margin-bottom: 15px;
+        }
+
+        .flash.success {
+            background: #14532d;
+            color: #bbf7d0;
+        }
+
+        .flash.error {
+            background: #7f1d1d;
+            color: #fecaca;
+        }
+
+        .actions {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        .button {
+            display: inline-block;
+            padding: 11px 16px;
+            border-radius: 7px;
+            background: #0369a1;
+            color: white;
+        }
+
+        footer {
+            text-align: center;
+            color: #64748b;
+            padding: 25px;
+        }
+    </style>
+</head>
+
+<body>
+
+<header>
+    <div class="brand">DURNEX</div>
+
+    <form action="{{ url_for('logout') }}" method="POST">
+        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+        <button class="logout" type="submit">Sign Out | تسجيل الخروج</button>
+    </form>
+</header>
+
+<main>
+
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% for category, message in messages %}
+            <div class="flash {{ category }}" role="alert">
+                {{ message }}
+            </div>
+        {% endfor %}
+    {% endwith %}
+
+    <div class="welcome">
+        <h1>Welcome, {{ student.full_name or student.username }}!</h1>
+        <p class="muted">
+            Your personal learning dashboard.
+            <br>
+            لوحة التحكم الشخصية الخاصة بك لمتابعة تقدمك التعليمي.
+        </p>
+    </div>
+
+    <div class="grid">
+
+        <div class="card">
+            <h3>Student Username | اسم الطالب</h3>
+            <div class="value">{{ student.username }}</div>
+        </div>
+
+        <div class="card">
+            <h3>Learning Level | المستوى التعليمي</h3>
+            <div class="value">{{ student.level }}</div>
+        </div>
+
+        <div class="card">
+            <h3>Completed Quizzes | الاختبارات المنجزة</h3>
+            <div class="value">{{ quiz_results|length }}</div>
+        </div>
+
+        <div class="card">
+            <h3>Completed Lessons | الدروس المكتملة</h3>
+            <div class="value">
+                {{ lessons|selectattr('completed', 'equalto', 1)|list|length }}
+            </div>
+        </div>
+
+    </div>
+
+    <section>
+        <h2>Account Information | معلومات الحساب</h2>
+        <p><strong>Full Name | الاسم الكامل:</strong>
+            {{ student.full_name or 'Not provided | غير مضاف' }}
+        </p>
+
+        <p>
+            <strong>Email | البريد الإلكتروني:</strong>
+            {{ student.email }}
+        </p>
+
+        <p>
+            <strong>Member Since | تاريخ إنشاء الحساب:</strong>
+            {{ student.created_at }}
+        </p>
+
+        <p class="muted">
+            Your account information is stored in the student database.
+            <br>
+            تُحفظ معلومات حسابك في قاعدة بيانات الطلاب.
+        </p>
+    </section>
+
+    <section>
+        <h2>Quiz Results | نتائج الاختبارات</h2>
+
+        {% if quiz_results %}
+            <div class="table-wrap">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Quiz | الاختبار</th>
+                            <th>Score | الدرجة</th>
+                            <th>Percentage | النسبة</th>
+                            <th>Date | التاريخ</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        {% for result in quiz_results %}
+                            <tr>
+                                <td>{{ result.quiz_name }}</td>
+
+                                <td>
+                                    {{ result.score }} /
+                                    {{ result.total_questions }}
+                                </td>
+
+                                <td>
+                                    {{ ((result.score / result.total_questions) * 100)|round|int }}%
+                                </td>
+
+                                <td>{{ result.completed_at }}</td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        {% else %}
+            <p class="muted">
+                You have not completed any recorded quizzes yet.
+                <br>
+                لم تُسجّل لك أي نتائج اختبارات حتى الآن.
+            </p>
+        {% endif %}
+    </section>
+
+    <section>
+        <h2>Lesson Progress | تقدم الدروس</h2>
+
+        {% if lessons %}
+            <div class="table-wrap">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Lesson | الدرس</th>
+                            <th>Status | الحالة</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        {% for lesson in lessons %}
+                            <tr>
+                                <td>{{ lesson.lesson_name }}</td>
+
+                                <td>
+                                    {% if lesson.completed == 1 %}
+                                        <span class="badge">
+                                            Completed | مكتمل
+                                        </span>
+                                    {% else %}
+                                        <span class="badge">
+                                            In Progress | قيد التعلم
+                                        </span>
+                                    {% endif %}
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        {% else %}
+            <p class="muted">
+                Your lesson progress will appear here.
+                <br>
+                سيظهر تقدمك في الدروس هنا عند تسجيله في النظام.
+            </p>
+        {% endif %}
+    </section>
+
+    <section>
+        <h2>Continue Learning | واصل التعلم</h2>
+
+        <p class="muted">
+            Continue your cybersecurity learning journey.
+            <br>
+            واصل رحلتك في تعلم الأمن السيبراني.
+        </p>
+
+        <div class="actions">
+            <a class="button" href="{{ url_for('network_lab') }}">
+                Open Network Lab | مختبر الشبكات
+            </a>
+
+            <a class="button" href="{{ url_for('home') }}">
+                Home Page | الصفحة الرئيسية
+            </a>
+        </div>
+    </section>
+
+</main>
+
+<footer>
+    DURNEX — Cybersecurity Learning Platform
+</footer>
+
+</body>
+</html>

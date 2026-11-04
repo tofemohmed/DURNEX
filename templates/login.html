@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Login | DURNEX</title>
+    <style>
+        * { box-sizing: border-box; }
+
+```
+    body {
+        margin: 0;
+        min-height: 100vh;
+        display: grid;
+        place-items: center;
+        padding: 24px;
+        background: #080d18;
+        color: #edf2ff;
+        font-family: Arial, sans-serif;
+    }
+
+    .card {
+        width: 100%;
+        max-width: 440px;
+        padding: 34px;
+        background: #111a2b;
+        border: 1px solid #293750;
+        border-radius: 18px;
+    }
+
+    .brand {
+        color: #65e6c1;
+        font-size: 13px;
+        font-weight: bold;
+        letter-spacing: 2px;
+    }
+
+    h1 { margin-bottom: 8px; font-size: 28px; }
+
+    .subtitle {
+        margin: 0 0 28px;
+        color: #a8b4ca;
+        line-height: 1.6;
+    }
+
+    label {
+        display: block;
+        margin: 18px 0 8px;
+        font-size: 14px;
+    }
+
+    input {
+        width: 100%;
+        padding: 13px;
+        border: 1px solid #35445e;
+        border-radius: 9px;
+        background: #0b1220;
+        color: white;
+        font-size: 16px;
+    }
+
+    input:focus {
+        outline: 2px solid #65e6c1;
+        outline-offset: 2px;
+    }
+
+    button {
+        width: 100%;
+        margin-top: 24px;
+        padding: 14px;
+        border: 0;
+        border-radius: 9px;
+        background: #65e6c1;
+        color: #08121b;
+        font-size: 16px;
+        font-weight: bold;
+        cursor: pointer;
+    }
+
+    .message {
+        margin-top: 16px;
+        padding: 12px;
+        border-radius: 8px;
+        background: #202d42;
+        color: #edf2ff;
+        line-height: 1.6;
+    }
+
+    .links {
+        margin-top: 22px;
+        text-align: center;
+        color: #a8b4ca;
+        font-size: 14px;
+        line-height: 1.8;
+    }
+
+    a { color: #65e6c1; text-decoration: none; }
+    a:hover { text-decoration: underline; }
+
+    .arabic {
+        margin-top: 24px;
+        padding-top: 18px;
+        border-top: 1px solid #293750;
+        color: #a8b4ca;
+        text-align: right;
+        line-height: 1.8;
+    }
+</style>
+```
+
+</head>
+<body>
+    <main class="card">
+        <div class="brand">DURNEX</div>
+
+```
+    <h1>Welcome Back</h1>
+    <p class="subtitle">
+        Sign in to access your student dashboard and learning progress.
+    </p>
+
+    <form action="/login" method="POST">
+        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+        <label for="username">Username or Email</label>
+        <input
+            id="username"
+            name="username"
+            type="text"
+            autocomplete="username"
+            required
+        >
+
+        <label for="password">Password</label>
+        <input
+            id="password"
+            name="password"
+            type="password"
+            autocomplete="current-password"
+            required
+        >
+
+        <button type="submit">Sign In</button>
+    </form>
+
+    <div class="links">
+        Don't have an account?
+        <a href="/register">Create an account</a>
+    </div>
+
+    <div class="arabic" lang="ar" dir="rtl">
+        <strong>تسجيل دخول الطالب</strong><br>
+        سجّل الدخول باستخدام اسم المستخدم أو البريد الإلكتروني وكلمة المرور
+        للوصول إلى ملفك الشخصي ومتابعة تقدمك التعليمي.
+    </div>
+</main>
+```
+
+</body>
+</html>
