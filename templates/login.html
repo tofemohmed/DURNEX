@@ -8,7 +8,6 @@
     <style>
         * { box-sizing: border-box; }
 
-```
     body {
         margin: 0;
         min-height: 100vh;
@@ -107,14 +106,12 @@
         line-height: 1.8;
     }
 </style>
-```
 
 </head>
 <body>
     <main class="card">
         <div class="brand">DURNEX</div>
 
-```
     <h1>Welcome Back</h1>
     <p class="subtitle">
         Sign in to access your student dashboard and learning progress.
@@ -143,6 +140,12 @@
         <button type="submit">Sign In</button>
     </form>
 
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% for category, message in messages %}
+            <div class="message">{{ message }}</div>
+        {% endfor %}
+    {% endwith %}
+
     <div class="links">
         Don't have an account?
         <a href="/register">Create an account</a>
@@ -154,7 +157,6 @@
         للوصول إلى ملفك الشخصي ومتابعة تقدمك التعليمي.
     </div>
 </main>
-```
 
 </body>
 </html>
